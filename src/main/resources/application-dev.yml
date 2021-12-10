@@ -1,0 +1,38 @@
+server:
+  port: 8081
+spring.datasource:
+  driverClassName: com.mysql.jdbc.Driver
+  url: jdbc:mysql://127.0.0.1:3306/mastermds_db
+#  url: jdbc:mysql://host.docker.internal:3306/mastermds_db
+  username: root
+  password: Passw0rd1
+  platform: mysql
+  jpa:
+    database-platform: org.hibernate.dialect.MySQL5Dialect
+    spring.jpa.hibernate.naming.physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
+    hibernate.ddl-auto: none
+    generate-ddl: true
+    show-sql: true
+
+cloud:
+  aws:
+    credentials:
+      accessKey: AKIAZHKB2QCTGTSLNYLA
+      secretKey: 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
+    region:
+      static: us-east-2
+    stack:
+      auto: false
+
+logging:
+  level:
+    com:
+      amazonaws:
+        util:
+          EC2MetadataUtils: error
+
+
+s3:
+  bucketContextUrl: https://s3.console.aws.amazon.com/s3/buckets/
+
+
