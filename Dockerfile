@@ -6,7 +6,7 @@ ARG ARTIFACT_ID
 EXPOSE 8081
 
 #ADD ./target/${JAR_FILE} app.jar
-ADD ./target/kinesis-consumer-1.0-SNAPSHOT.jar app.jar
+ADD ./target/event-consumer-1.0-SNAPSHOT.jar app.jar
 
 RUN sh -c 'touch /app.jar'
 
