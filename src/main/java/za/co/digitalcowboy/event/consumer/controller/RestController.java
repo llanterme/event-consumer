@@ -81,6 +81,8 @@ public class RestController {
 
         final DozerBeanMapper mapper = new DozerBeanMapper();
         final User user = mapper.map(headers, User.class);
+        System.out.println(user.getEmailAddress());
+
 
         publishToRegisterSns(user);
 
