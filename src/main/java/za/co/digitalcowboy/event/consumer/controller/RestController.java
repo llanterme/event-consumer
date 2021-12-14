@@ -72,18 +72,17 @@ public class RestController {
         return ResponseEntity.status(HttpStatus.OK).body("Hello");
     }
 
-    @PostMapping(value = "/receive-register", consumes = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping(value = "/receive-register-sqs", consumes = MediaType.APPLICATION_JSON_VALUE)
     @SqsListener(value = CITY_QUEUE, deletionPolicy = SqsMessageDeletionPolicy.ON_SUCCESS)
     @ResponseStatus(HttpStatus.CREATED)
     public void receiveNewUser(@Headers Map<String, String> headers, String message) throws Exception {
         CoreLog coreLog = new CoreLog();
-        log.info(coreLog.info("Received SQS message Metadata", message));
+        log.info(coreLog.start("Received message with message SQS", message));
 
         final DozerBeanMapper mapper = new DozerBeanMapper();
         final User user = mapper.map(headers, User.class);
         System.out.println(user.getEmailAddress());
-
-
+        log.info(coreLog.info("registered user: ", user));
         publishToRegisterSns(user);
 
 
@@ -95,14 +94,14 @@ public class RestController {
     @ResponseStatus(HttpStatus.CREATED)
     public void receiveSettlements(@Valid String message, @Header("MessageId") String messageId) throws Exception {
         CoreLog coreLog = new CoreLog();
-        log.info(coreLog.start("Received message with message ID", messageId));
+        log.info(coreLog.start("Received message with message SQS ID", messageId));
         log.info(coreLog.info("Received SQS message Metadata", message));
         S3Object s3Object = getS3ObjectFromSqsMessage(message);
         String s3FileName = s3Object.getKey();
-        log.info(coreLog.start("Got file name", s3FileName));
+        log.info(coreLog.info("Got file name", s3FileName));
 
         UserRegister userRegister = ConversionUtil.getFileJson(s3Object, UserRegister.class);
-        log.info(coreLog.start("SQS Deserialized Object", userRegister.getEmailAddress()));
+        log.info(coreLog.info("SQS Deserialized Object", userRegister.getEmailAddress()));
 
         Gson gson = new Gson();
         publishToSns(gson.toJson(userRegister));
@@ -168,10 +167,12 @@ public class RestController {
     private void publishToRegisterSns(User user) {
 
         try {
+            CoreLog coreLog = new CoreLog();
+            log.info(coreLog.start("sending user register sns message", user));
             ObjectMapper objectMapper = Utils.getObjectMapper();
             String jsonStr = objectMapper.writeValueAsString(user);
             PublishResult result = awsConfig.getAmazonSNSClient().publish("arn:aws:sns:us-east-2:634182598822:sns-user-register", jsonStr);
-            System.out.printf(result.getMessageId());
+            log.info(coreLog.start("sent sns message id", result.getMessageId()));
 
         } catch (Exception e) {
             System.out.printf(e.getMessage());
