@@ -168,7 +168,7 @@ public class RestController {
 
         try {
             CoreLog coreLog = new CoreLog();
-            log.info(coreLog.start("sending user register sns message", user));
+            log.info(coreLog.start("sending user registered sns message", user));
             ObjectMapper objectMapper = Utils.getObjectMapper();
             String jsonStr = objectMapper.writeValueAsString(user);
             PublishResult result = awsConfig.getAmazonSNSClient().publish("arn:aws:sns:us-east-2:634182598822:sns-user-register", jsonStr);
