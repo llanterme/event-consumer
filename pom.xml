@@ -25,6 +25,7 @@
         <spring.cloud.stream.version>3.0.0.RELEASE</spring.cloud.stream.version>
         <spring.boot.version>2.3.1.RELEASE</spring.boot.version>
 
+
     </properties>
 
     <dependencyManagement>
@@ -102,6 +103,28 @@
             <version>2.0.2.RELEASE</version>
         </dependency>
 
+<!--        &lt;!&ndash; https://mvnrepository.com/artifact/commons-logging/commons-logging &ndash;&gt;-->
+<!--        <dependency>-->
+<!--            <groupId>commons-logging</groupId>-->
+<!--            <artifactId>commons-logging</artifactId>-->
+<!--            <version>1.2</version>-->
+<!--        </dependency>-->
+
+        <!-- https://mvnrepository.com/artifact/ch.qos.logback/logback-access -->
+        <dependency>
+            <groupId>ch.qos.logback</groupId>
+            <artifactId>logback-access</artifactId>
+            <version>1.2.3</version>
+        </dependency>
+
+
+<!--        <dependency>-->
+<!--            <groupId>ch.qos.logback</groupId>-->
+<!--            <artifactId>logback-classic</artifactId>-->
+<!--            <version>1.2.4</version>-->
+<!--        </dependency>-->
+
+
         <dependency>
             <groupId>org.apache.httpcomponents</groupId>
             <artifactId>httpclient</artifactId>
@@ -143,7 +166,7 @@
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
-            <version>1.18.12</version>
+            <version>1.18.22</version>
             <scope>provided</scope>
         </dependency>
 
