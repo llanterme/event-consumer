@@ -27,6 +27,7 @@ import org.springframework.web.bind.annotation.*;
 import za.co.digitalcowboy.event.consumer.config.AWSConfig;
 import za.co.digitalcowboy.event.consumer.domain.User;
 import za.co.digitalcowboy.event.consumer.domain.UserRegister;
+import za.co.digitalcowboy.event.consumer.domain.Version;
 import za.co.digitalcowboy.event.consumer.utils.ConversionUtil;
 import za.co.digitalcowboy.event.consumer.utils.CoreLog;
 import za.co.digitalcowboy.event.consumer.utils.Utils;
@@ -61,9 +62,13 @@ public class RestController {
 
 
     @RequestMapping(path = "/health", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity getHealthz() {
+    public ResponseEntity<Version> gethealth() {
 
-        return ResponseEntity.status(HttpStatus.OK).build();
+        Version version = new Version();
+        version.setMessage("Healthy");
+        version.setServiceVersion("1.0.0");
+
+        return ResponseEntity.status(HttpStatus.OK).body(version);
     }
 
     @RequestMapping(path = "/hello", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
